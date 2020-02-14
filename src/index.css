@@ -1,0 +1,16 @@
+.app {
+  margin-top: 30px; 
+}
+
+.ui.small.header {
+  margin: 0;
+}
+
+.flag-content {
+  display: flex;
+  align-items: center;
+}
+
+.flag-content p {
+  padding-left: 10px;
+}

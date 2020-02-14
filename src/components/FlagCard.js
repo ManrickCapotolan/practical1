@@ -4,10 +4,12 @@ import { UserDetail } from './UserDetail';
 export function FlagCard(props) {
   const { email, jobTitle, avatar, content, countryCode } = props;
   return (
-    <div>
+    <div className="fluid card">
       <UserDetail email={email} jobTitle={jobTitle} avatar={avatar} />
-      <p>{content}</p>
-      <p>{countryCode}</p>
+      <div className="extra content flag-content">
+        <img className="left floated" src={`https://www.countryflags.io/${countryCode}/flat/64.png`} alt={countryCode}/>
+        <p>{content}</p>
+      </div>
     </div>
   )
 }
