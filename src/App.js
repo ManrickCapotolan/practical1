@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import faker from 'faker';
 
-function App() {
+import { FlagCard } from './components/FlagCard';
+import { SearchBar } from './components/SearchBar';
+import { Spinner } from './components/Spinner';
+
+const fakeUsers = new Array(10).fill(null).map(_ => ({
+    email: faker.internet.email(),
+    jobTitle: faker.name.jobTitle(),
+    avatar: faker.image.avatar(),
+    content: faker.lorem.sentence(),
+    countryCode: faker.address.countryCode(),
+  })
+);
+console.log('FAKE USERS', fakeUsers);
+
+export default function App() {
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const onSearchChange = (value) => {
+    setLoading(true);
+    const filtered = fakeUsers.filter(user => value.length && user.email.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+    setResults(filtered);
+    setLoading(false);
+  };
+
+  const renderResults = () => {
+    if (!results.length) return <p>No Results!</p>;
+    return results.map(result => <FlagCard {...result} /> );
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchBar onChange={onSearchChange} />
+      {
+        loading
+          ? <Spinner />
+          : renderResults()
+      }
     </div>
   );
 }
 
-export default App;
